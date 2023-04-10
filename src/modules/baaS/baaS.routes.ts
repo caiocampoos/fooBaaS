@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { getContractHandler } from './baaS.controller';
+import { generateQrCodeChargeHandler } from './baaS.controller';
 import { $ref } from './baaS.schema';
 
 async function baaSRoutes(server: FastifyInstance) {
@@ -10,10 +10,11 @@ async function baaSRoutes(server: FastifyInstance) {
         body: $ref('qrCodeCharge'),
         response: {
           200: $ref('qrCodeChargeResponse'),
+          400: $ref('dockidTxError'),
         },
       },
     },
-    getContractHandler,
+    generateQrCodeChargeHandler,
   );
 }
 export default baaSRoutes;

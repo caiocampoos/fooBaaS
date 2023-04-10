@@ -9,6 +9,7 @@
     "sourceMap": true,
     "outDir": "build",
     "skipLibCheck": true,
+    "useUnknownInCatchVariables": false,
     "strict": true,
     "baseUrl": ".",
     "paths": {
