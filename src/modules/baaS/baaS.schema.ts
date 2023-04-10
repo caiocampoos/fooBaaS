@@ -6,7 +6,10 @@ import { buildJsonSchemas } from 'fastify-zod';
 const qrCodeCharge = z.object({
   idAccount: z.number(),
   key: z.string(),
-  idTx: z.string(),
+  idTx: z.string({
+    required_error: 'idTx Required to generate Charge',
+    invalid_type_error: 'Max 25 charachters',
+  }),
   finalAmount: z.number(),
   details: z.string(),
 });
@@ -25,6 +28,12 @@ const qrCodeChargeResponse = z.object({
   image: z.string(),
 });
 
+/// Exception Schemas
+const dockidTxError = z.object({
+  uuid: z.string().uuid(),
+  message: z.string().default('Idx already in use'),
+});
+
 /// Types
 export type qrCodeCharge = z.infer<typeof qrCodeCharge>;
 
@@ -39,6 +48,7 @@ export const { schemas: baaSSchemas, $ref } = buildJsonSchemas(
     qrCodeChargeResponse,
     qrCodeCharge,
     accessTokenResponse,
+    dockidTxError,
   },
   { $id: 'Charges' },
 );
