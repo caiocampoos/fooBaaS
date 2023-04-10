@@ -19,6 +19,9 @@ const ConfigSchema = Type.Strict(
     CARADHRAS_API_BASE_URL: Type.String(),
     CARADHRAS_API_USERNAME: Type.String(),
     CARADHRAS_API_PASSWORD: Type.String(),
+    CELCOIN_CLIENT_ID: Type.String(),
+    CELCOIN_CLIENT_SECRET: Type.String(),
+    CELCOIN_BASE_URL: Type.String(),
   }),
 );
 

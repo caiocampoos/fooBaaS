@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "0d16e749-ab6e-41ac-8272-c631e0ecf694",
+		"name": "WooviBaaS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7643144"
+	},
+	"item": [
+		{
+			"name": "Charges",
+			"item": [
+				{
+					"name": "QRCode Dock",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest(\"https://randomuser.me/api/?nat=us&inc=phone\", (err, res) => {\r",
+									"    pm.environment.set('idtx', res.json().info.seed)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "serviceprovider",
+								"value": "dock",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 5872,\r\n  \"key\": \"b418a76f-47a6-4a01-aacd-2c0afa43f221\",\r\n  \"amount\": 1,\r\n  \"uniqueIdentifier\": \"{{idtx}}\",\r\n  \"comment\": \"Teste\",\r\n  \"merchant\": {\r\n    \"postalCode\": \"69307345\",\r\n    \"city\": \"Boa Vista\",\r\n    \"type\": 0,\r\n    \"name\": \"Barraquinha\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/baaS/qrCode",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"baaS",
+								"qrCode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "QRCode Coincel",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest(\"https://randomuser.me/api/?nat=us&inc=phone\", (err, res) => {\r",
+									"    pm.environment.set('idtx', res.json().info.seed)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "serviceprovider",
+								"value": "coincel",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 5872,\r\n  \"key\": \"testepix@celcoin.com.br\",\r\n  \"amount\": 10.55,\r\n  \"uniqueIdentifier\": \"{{idtx}}\",\r\n  \"comment\": \"Teste\",\r\n  \"merchant\": {\r\n    \"postalCode\": \"69307345\",\r\n    \"city\": \"Boa Vista\",\r\n    \"type\": 0,\r\n    \"name\": \"Barraquinha\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/baaS/qrCode",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"baaS",
+								"qrCode"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account",
+			"item": []
+		},
+		{
+			"name": "Tenant Login",
+			"item": []
+		}
+	]
+}

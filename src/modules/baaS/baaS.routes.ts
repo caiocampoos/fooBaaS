@@ -9,8 +9,7 @@ async function baaSRoutes(server: FastifyInstance) {
       schema: {
         body: $ref('qrCodeCharge'),
         response: {
-          200: $ref('qrCodeChargeResponse'),
-          400: $ref('dockidTxError'),
+          200: $ref('qrCodeResponse'),
         },
       },
     },
