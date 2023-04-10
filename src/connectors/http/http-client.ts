@@ -8,6 +8,7 @@ abstract class HttpClient {
       baseURL,
     });
   }
+  // todo retry policie as interceptors
 }
 
 export default HttpClient;

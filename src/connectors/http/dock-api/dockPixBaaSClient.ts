@@ -1,15 +1,14 @@
 import HttpClient from '../http-client';
 
-class caradhrasPixBaaSClient extends HttpClient {
+class DockPixBaaSClient extends HttpClient {
   public constructor() {
     super(`${process.env.CARADHRAS_PIX_BAAS_API_BASE_URL}`);
     this._initializeRequestInterceptor();
   }
 
-  private _initializeRequestInterceptor = async () => {
+  private _initializeRequestInterceptor = () => {
     this.instance.interceptors.request.use((config) => {
       config.headers.Authorization = `${process.env.CARADHRAS_TOKEN}`;
-      config.headers['Content-Type'] = 'application/json';
       return config;
     });
   };
@@ -22,4 +21,4 @@ class caradhrasPixBaaSClient extends HttpClient {
   public get = (path: string) => this.instance.get(path);
 }
 
-export default new caradhrasPixBaaSClient();
+export default new DockPixBaaSClient();

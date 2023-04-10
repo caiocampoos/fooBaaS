@@ -1,6 +1,6 @@
 import HttpClient from '../http-client';
 
-class CaradhrasHttpClient extends HttpClient {
+class DockHttpClient extends HttpClient {
   public constructor() {
     super(`${process.env.CARADHRAS_API_BASE_URL}`);
     this._initializeRequestInterceptor();
@@ -22,4 +22,4 @@ class CaradhrasHttpClient extends HttpClient {
   public get = (path: string) => this.instance.get(path);
 }
 
-export default new CaradhrasHttpClient();
+export default new DockHttpClient();

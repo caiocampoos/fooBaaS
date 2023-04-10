@@ -1,13 +1,13 @@
 import { accessTokenResponse } from '@src/modules/baaS/baaS.schema';
-import CaradhrasAuthClient from './caradhrasAuthClient';
+import DockAuthClient from './dockAuthClient';
 import { AxiosResponse } from 'axios';
 
-class CaradhrasLogin {
+class DockLogin {
   async execute() {
     const token = `${process.env.CARADHRAS_API_USERNAME}:${process.env.CARADHRAS_API_PASSWORD}`;
     const encodedToken = Buffer.from(token).toString('base64');
     const { data: response }: AxiosResponse<accessTokenResponse> =
-      await CaradhrasAuthClient.post(
+      await DockAuthClient.post(
         '/oauth2/token?grant_type=client_credentials',
         {},
         {
@@ -20,4 +20,4 @@ class CaradhrasLogin {
   }
 }
 
-export default new CaradhrasLogin();
+export default new DockLogin();
