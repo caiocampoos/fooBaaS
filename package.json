@@ -1,0 +1,62 @@
+{
+  "name": "foobas-api",
+  "version": "0.0.0",
+  "description": "foobas Api",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "check:types": "tsc --noEmit",
+    "build": "esbuild `find src \\( -name '*.ts' \\)` --platform=node --outdir=build",
+    "build:docker:prod": "docker build . -t my-fastify-app --build-arg APP_ENV=production",
+    "start": "node build",
+    "dev": "tsx watch src .env | pino-pretty --colorize"
+  },
+  "main": "./src",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/caiocampoos/fooBaaS"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [
+    "nodejs",
+    "fastify",
+    "typescript"
+  ],
+  "author": "Caio Campos Borges Rosa",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/cors": "^8.2.0",
+    "@fastify/swagger": "^8.3.1",
+    "@fastify/swagger-ui": "^1.5.0",
+    "@sinclair/typebox": "^0.26.0",
+    "axios": "^1.3.4",
+    "dotenv": "^16.0.3",
+    "env-schema": "^5.1.1",
+    "fastify": "^4.14.1",
+    "fastify-plugin": "^4.5.0",
+    "fastify-swagger": "^4.15.0",
+    "fastify-zod": "^1.2.0",
+    "zod": "^3.20.6",
+    "zod-to-json-schema": "^3.20.4"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.1",
+    "@types/node": "^18.11.15",
+    "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "esbuild": "^0.17.11",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "pino-pretty": "^10.0.0",
+    "prettier": "^2.8.0",
+    "supertest": "^6.3.3",
+    "tsx": "^3.12.1",
+    "typescript": "^5.0.2",
+    "vitest": "^0.29.2"
+  }
+}
