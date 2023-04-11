@@ -5,8 +5,8 @@ import { buildJsonSchemas } from 'fastify-zod';
 
 const qrCodeCharge = z.object({
   id: z.number(),
-  key: z.string(),
-  amount: z.number(),
+  key: z.string().nonempty(),
+  amount: z.number().nonnegative(),
   uniqueIdentifier: z.string(),
   comment: z.string(),
   merchant: z.object({
@@ -22,7 +22,7 @@ const dockqrCodeCharge = z.object({
   key: z.string(),
   idTx: z.string(),
   finalAmount: z.number(),
-  details: z.string(),
+  details: z.string().nullish(),
 });
 
 const coincelrCodeCharge = z.object({

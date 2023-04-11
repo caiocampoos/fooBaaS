@@ -29,7 +29,6 @@ export async function generateQrCodeCharge(
     const { data: qrCodeCharge }: AxiosResponse<DockQrCodeResponse> =
       await DockPixBaaSClient.post(`/code/v1/static-code`, dockBody);
     const qrResponse = dockResponseAdapter(qrCodeCharge);
-    console.log(qrResponse);
     return qrResponse;
   }
   if (headers.serviceprovider == 'coincel') {
@@ -41,4 +40,5 @@ export async function generateQrCodeCharge(
     qrResponse.uniqueIdentifier = coincelBody.transactionIdentification;
     return qrResponse;
   }
+  return 'Service Provider Header not Found'
 }
