@@ -1,9 +1,11 @@
 import {
-  CoincelrCodeCharge,
-  QrCodeCharge,
+  StaticCoincelrCodeCharge,
+  StaticQrCodeCharge,
 } from '../../modules/baaS/baaS.schema';
 
-export const coincelAdapter = (resp: QrCodeCharge): CoincelrCodeCharge => ({
+export const coincelAdapter = (
+  resp: StaticQrCodeCharge,
+): StaticCoincelrCodeCharge => ({
   key: resp.key,
   amount: resp.amount,
   transactionIdentification: resp.uniqueIdentifier,
