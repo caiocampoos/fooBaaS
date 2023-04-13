@@ -159,7 +159,72 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"id\": 5872,\n  \"key\": \"b418a76f-47a6-4a01-aacd-2c0afa43f221\",\n  \"amount\": \"1\",\n  \"uniqueIdentifier\": \"{{idtx}}\",\n  \"comment\": \"Meu no seu taok?\",\n  \"merchant\": {\n    \"city\": \"São Paulo\",\n    \"state\": \"SP\",\n    \"address\": \"Address example.\",\n    \"postalCode\": \"99999999\",\n    \"type\": 1,\n    \"name\": \"Beiçola\"\n  },\n  \"payer\": {\n      \"name\": \"Tiririca\",\n      \"type\": \"F\",\n      \"document\": \"31734358262\",\n      \"comment\": \"Tranquilo no seu\"\n  }\n}",
+							"raw": "{\n  \"id\": 5872,\n  \"key\": \"b418a76f-47a6-4a01-aacd-2c0afa43f221\",\n  \"amount\": \"1.55\",\n  \"uniqueIdentifier\": \"{{idtx}}\",\n  \"comment\": \"Meu no seu taok?\",\n  \"merchant\": {\n    \"city\": \"São Paulo\",\n    \"state\": \"SP\",\n    \"address\": \"Address example.\",\n    \"postalCode\": \"99999999\",\n    \"type\": 1.55,\n    \"name\": \"Beiçola\"\n  },\n  \"payer\": {\n      \"name\": \"Tiririca\",\n      \"type\": \"F\",\n      \"document\": \"31734358262\",\n      \"comment\": \"Tranquilo no seu\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/baaS/qrCode/dynamic",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"baaS",
+								"qrCode",
+								"dynamic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dynamic QrCode Coincel",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function randomString(minValue, maxValue, dataSet = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') {",
+									"    if (!minValue) {",
+									"        minValue = 26;",
+									"        maxValue = 35;",
+									"    }",
+									"",
+									"    if (!maxValue) {",
+									"        maxValue = minValue;",
+									"    }",
+									"",
+									"    let length = _.random(minValue, maxValue),",
+									"        randomString = \"\";",
+									"",
+									"    for (let i = 0; i < length; i++)",
+									"        randomString += dataSet.charAt(Math.floor(Math.random() * dataSet.length));",
+									"    return randomString;",
+									"}",
+									"",
+									"pm.variables.set('idtx', randomString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "serviceprovider",
+								"value": "coincel",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 5872,\n  \"key\": \"b418a76f-47a6-4a01-aacd-2c0afa43f221\",\n  \"amount\": \"15.24\",\n  \"uniqueIdentifier\": \"{{idtx}}\",\n  \"comment\": \"Meu no seu taok?\",\n  \"merchant\": {\n    \"city\": \"São Paulo\",\n    \"state\": \"SP\",\n    \"address\": \"Address example.\",\n    \"postalCode\": \"99999999\",\n    \"type\": 1,\n    \"name\": \"Beiçola\"\n  },\n  \"payer\": {\n      \"name\": \"Tiririca\",\n      \"type\": \"F\",\n      \"document\": \"31734358262\",\n      \"comment\": \"Tranquilo no seu\"\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
