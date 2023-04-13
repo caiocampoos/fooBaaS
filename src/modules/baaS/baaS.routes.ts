@@ -18,6 +18,14 @@ async function baaSRoutes(server: FastifyInstance) {
     },
     generateStaticQrCodeChargeHandler,
   );
-  server.post('/qrCode/dynamic', generateDynamicQrCodeChargeHandler);
+  server.post(
+    '/qrCode/dynamic',
+    {
+      schema: {
+        body: $ref('DynamicImediateQrCodeCharge'),
+      },
+    },
+    generateDynamicQrCodeChargeHandler,
+  );
 }
 export default baaSRoutes;

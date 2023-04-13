@@ -1,8 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import {
-  DynamicCodeCharge,
   StaticQrCodeCharge,
-  serviceHeaders,
+  DynamicImmediateQrCodeCharge,
+  ServiceHeaders,
 } from './baaS.schema';
 import {
   generateStaticQrCodeCharge,
@@ -11,7 +11,7 @@ import {
 
 export async function generateStaticQrCodeChargeHandler(
   request: FastifyRequest<{
-    Headers?: serviceHeaders;
+    Headers?: ServiceHeaders;
     Body: StaticQrCodeCharge;
   }>,
   reply: FastifyReply,
@@ -31,8 +31,8 @@ export async function generateStaticQrCodeChargeHandler(
 
 export async function generateDynamicQrCodeChargeHandler(
   request: FastifyRequest<{
-    Headers?: serviceHeaders;
-    Body: DynamicCodeCharge;
+    Headers?: ServiceHeaders;
+    Body: DynamicImmediateQrCodeCharge;
   }>,
   reply: FastifyReply,
 ) {
