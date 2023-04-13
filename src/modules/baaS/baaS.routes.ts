@@ -1,19 +1,31 @@
 import { FastifyInstance } from 'fastify';
-import { generateQrCodeChargeHandler } from './baaS.controller';
+import {
+  generateStaticQrCodeChargeHandler,
+  generateDynamicQrCodeChargeHandler,
+} from './baaS.controller';
 import { $ref } from './baaS.schema';
 
 async function baaSRoutes(server: FastifyInstance) {
   server.post(
-    '/qrCode',
+    '/qrCode/static',
     {
       schema: {
-        body: $ref('qrCodeCharge'),
+        body: $ref('StaticQrCodeCharge'),
         response: {
-          200: $ref('qrCodeResponse'),
+          200: $ref('StaticqrCodeResponse'),
         },
       },
     },
-    generateQrCodeChargeHandler,
+    generateStaticQrCodeChargeHandler,
+  );
+  server.post(
+    '/qrCode/dynamic',
+    {
+      schema: {
+        body: $ref('DynamicImediateQrCodeCharge'),
+      },
+    },
+    generateDynamicQrCodeChargeHandler,
   );
 }
 export default baaSRoutes;

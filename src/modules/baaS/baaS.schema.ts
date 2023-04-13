@@ -1,9 +1,10 @@
 import { z } from 'zod';
 import { buildJsonSchemas } from 'fastify-zod';
 
-///core models
+///Core Schemas
 
-const qrCodeCharge = z.object({
+/////Static Qr Code Charges
+const StaticQrCodeCharge = z.object({
   id: z.number(),
   key: z.string().nonempty(),
   amount: z.number().nonnegative(),
@@ -17,7 +18,7 @@ const qrCodeCharge = z.object({
   }),
 });
 
-const dockqrCodeCharge = z.object({
+const dockStaticQrCodeCharge = z.object({
   idAccount: z.number(),
   key: z.string(),
   idTx: z.string(),
@@ -25,7 +26,7 @@ const dockqrCodeCharge = z.object({
   details: z.string().nullish(),
 });
 
-const coincelrCodeCharge = z.object({
+const coincelStaticQrCodeCharge = z.object({
   key: z.string(),
   amount: z.number(),
   transactionIdentification: z.string(),
@@ -40,19 +41,93 @@ const coincelrCodeCharge = z.object({
   withdrawal: z.boolean().default(false),
 });
 
+/////Dynamic Qr Code Charges
+const dockqrLocImmedate = z.object({
+  idAccount: z.number(),
+  key: z.string(),
+  locType: z.string().default('COB'),
+  idTx: z.string(),
+  payee: z.object({
+    city: z.string(),
+    state: z.string(),
+    address: z.string(),
+    zipCode: z.string(),
+  }),
+});
+
+const dockDynamicImediateQrCodeCharge = z.object({
+  idAccount: z.number(),
+  loc: z.string().nullish(),
+  payer: z.object({
+    payerName: z.string(),
+    beneficiaryType: z.enum(['F', 'J']),
+    nationalRegistration: z.string(),
+    payerQuestion: z.string(),
+  }),
+  amount: z.string(),
+  allowChange: z.boolean().default(true),
+  dateExpiration: z.string().datetime().nullish(),
+  details: z
+    .array(
+      z.object({
+        title: z.string(),
+        content: z.string(),
+      }),
+    )
+    .optional(),
+});
+
+const coincelDynamicImediateQrCodeCharge = z.object({
+  merchant: z.object({
+    postalCode: z.string(),
+    city: z.string(),
+    name: z.string(),
+  }),
+  expiration: z.number().nullish(),
+  clientRequestId: z.string(),
+  key: z.string(),
+  amount: z.string(),
+  payerCPF: z.string(),
+  payerName: z.string(),
+});
+
+const amountRegex = '\\d+(\\.|,)\\d{2}';
+const DynamicImediateQrCodeCharge = z.object({
+  id: z.number(),
+  key: z.string(),
+  amount: z
+    .string({
+      required_error: 'Amount is required',
+      invalid_type_error: 'Amount need to be of type xx.xx, Ex: 1.55 or 25.30',
+    })
+    .regex(new RegExp(amountRegex)),
+  uniqueIdentifier: z.string(),
+  comment: z.string(),
+  merchant: z.object({
+    postalCode: z.string(),
+    city: z.string(),
+    state: z.string(),
+    address: z.string(),
+    type: z.number(),
+    name: z.string(),
+  }),
+  payer: z.object({
+    name: z.string(),
+    type: z.enum(['F', 'J']),
+    document: z.string(),
+    comment: z.string(),
+  }),
+});
+
+////Commons
 const serviceHeaders = z.object({
   serviceprovider: z.string(),
 });
 
 ///Response Schemas
 
-const accessTokenResponse = z.object({
-  access_token: z.string(),
-  token_type: z.string(),
-  expires_in: z.number(),
-});
-
-const qrCodeResponse = z.object({
+/////Static Qr Code Charges Responses
+const StaticqrCodeResponse = z.object({
   emv: z.string(),
   text: z.string().nullish(),
   image: z.string().nullish(),
@@ -60,49 +135,115 @@ const qrCodeResponse = z.object({
   uniqueIdentifier: z.string().nullish(),
 });
 
-const dockqrCodeResponse = z.object({
+const dockStaticqrCodeResponse = z.object({
   emv: z.string(),
   text: z.string(),
   image: z.string(),
 });
 
-const coincelCodeResponse = z.object({
+const coincelStaticCodeResponse = z.object({
   transactionId: z.number(),
   emvqrcps: z.string(),
   transactionIdentifier: z.string(),
 });
 
-/// Exception Schemas
-const dockidTxError = z.object({
-  uuid: z.string().uuid(),
-  message: z.string().default('Idx already in use'),
+/////Dynamic Qr Code Charges Responses
+const DynamicImmediateQrCodeResponse = z.object({
+  emv: z.string(),
+  text: z.string().nullish(),
+  image: z.string().nullish(),
+  transactionId: z.string().nullish(),
+  uniqueIdentifier: z.string().nullish(),
+  payloadURL: z.string().nullish(),
+  createdDate: z.string().datetime().nullish(),
+});
+
+const dockDynamicImmediateCodeResponse = z.object({
+  emv: z.string(),
+  text: z.string(),
+  image: z.string(),
+  payloadURL: z.string(),
+  idTx: z.string(),
+  createdDate: z.string().datetime(),
+});
+
+const coincelDynamicImmediateCodeResponse = z.object({
+  emvqrcps: z.string(),
+  transactionId: z.string().nullish(),
+  transactionIdentification: z.string(),
+});
+
+///commons
+const accessTokenResponse = z.object({
+  access_token: z.string(),
+  token_type: z.string(),
+  expires_in: z.number(),
 });
 
 /// Types
-export type QrCodeCharge = z.infer<typeof qrCodeCharge>;
 
-export type DockqrCodeCharge = z.infer<typeof dockqrCodeCharge>;
+/// Static Qr Code Charges
+export type StaticQrCodeCharge = z.infer<typeof StaticQrCodeCharge>;
 
-export type CoincelrCodeCharge = z.infer<typeof coincelrCodeCharge>;
+export type DockStatiQrCodeCharge = z.infer<typeof dockStaticQrCodeCharge>;
 
-export type serviceHeaders = z.infer<typeof serviceHeaders>;
+export type CoincelStaticQrCodeCharge = z.infer<
+  typeof coincelStaticQrCodeCharge
+>;
 
-export type accessTokenResponse = z.infer<typeof accessTokenResponse>;
+/// Dynamic Qr Code Charges
+export type DockQrLocImmediate = z.infer<typeof dockqrLocImmedate>;
 
-export type QrCodeResponse = z.infer<typeof qrCodeResponse>;
+export type DynamicImmediateQrCodeCharge = z.infer<
+  typeof DynamicImediateQrCodeCharge
+>;
 
-export type DockQrCodeResponse = z.infer<typeof dockqrCodeResponse>;
+export type DockDynamiImmediatecCodeCharge = z.infer<
+  typeof dockDynamicImediateQrCodeCharge
+>;
 
-export type CoincelQrCodeResponse = z.infer<typeof coincelCodeResponse>;
+export type CoincelDynamiImmediatecCodeCharge = z.infer<
+  typeof coincelDynamicImediateQrCodeCharge
+>;
 
-/// Export ref for Beneficiary JsonSchemas
+/// Static Qr Code Responses
+
+export type StaticQrCodeResponse = z.output<typeof StaticqrCodeResponse>;
+
+export type DockStaticQrCodeResponse = z.output<
+  typeof dockStaticqrCodeResponse
+>;
+
+export type CoincelStaticQrCodeResponse = z.output<
+  typeof coincelStaticCodeResponse
+>;
+
+/// Dynamic Qr Code Responses
+export type DynamicImmediateQrCodeResponse = z.output<
+  typeof DynamicImmediateQrCodeResponse
+>;
+
+export type DockDynamicImmediateQrCodeResponse = z.output<
+  typeof dockDynamicImmediateCodeResponse
+>;
+
+export type CoincelDynamicImmediateQrCodeResponse = z.output<
+  typeof coincelDynamicImmediateCodeResponse
+>;
+
+///commons
+export type AccessTokenResponse = z.output<typeof accessTokenResponse>;
+
+export type ServiceHeaders = z.input<typeof serviceHeaders>;
+
+/// Export ref for JsonSchemas
 
 export const { schemas: baaSSchemas, $ref } = buildJsonSchemas(
   {
-    qrCodeCharge,
-    accessTokenResponse,
-    qrCodeResponse,
-    dockidTxError,
+    StaticQrCodeCharge,
+    StaticqrCodeResponse,
+    DynamicImediateQrCodeCharge,
+    DynamicImmediateQrCodeResponse,
   },
   { $id: 'Charges' },
 );
