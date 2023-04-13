@@ -57,6 +57,7 @@ export async function generateStaticQrCodeCharge(
     qrResponse.uniqueIdentifier = coincelBody.transactionIdentification;
     return qrResponse;
   }
+  return 'Service Provider Header not Found'
 }
 
 export async function generateDynamicQrCodeCharge(

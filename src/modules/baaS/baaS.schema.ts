@@ -6,8 +6,8 @@ import { buildJsonSchemas } from 'fastify-zod';
 /////Static Qr Code Charges
 const StaticQrCodeCharge = z.object({
   id: z.number(),
-  key: z.string(),
-  amount: z.number(),
+  key: z.string().nonempty(),
+  amount: z.number().nonnegative(),
   uniqueIdentifier: z.string(),
   comment: z.string(),
   merchant: z.object({
@@ -23,7 +23,7 @@ const dockStaticQrCodeCharge = z.object({
   key: z.string(),
   idTx: z.string(),
   finalAmount: z.number(),
-  details: z.string(),
+  details: z.string().nullish(),
 });
 
 const coincelStaticQrCodeCharge = z.object({
